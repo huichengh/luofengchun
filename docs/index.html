@@ -1,1 +1,1159 @@
-��`�!�ia�iejx
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>洛逢春 · 四海豪客</title>
+<style>
+:root{
+  --paper:#f3ede1;
+  --paper2:#ece4d4;
+  --ink:#241f1b;
+  --ink2:#5a5048;
+  --ink3:#8b8177;
+  --zhu:#a8342a;
+  --zhu-soft:#c4615a;
+  --qing:#3c6b63;
+  --gold:#9a7b3f;
+  --line:rgba(36,31,27,.14);
+  --card:rgba(255,253,247,.72);
+  --shadow:0 10px 30px -12px rgba(36,31,27,.35);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;margin:0;padding:0;}
+body{
+  font-family:"Songti SC","STSong","SimSun","Noto Serif SC",serif;
+  background:var(--paper);
+  color:var(--ink);
+  overflow:hidden;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(168,52,42,.05), transparent 42%),
+    radial-gradient(circle at 88% 76%, rgba(60,107,99,.05), transparent 46%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+}
+#app{position:fixed;inset:0;display:flex;flex-direction:column;}
+
+/* ---------- 顶部 ---------- */
+header{
+  flex:0 0 auto;display:flex;align-items:center;gap:12px;
+  padding:12px 16px;border-bottom:1px solid var(--line);
+  background:rgba(243,237,225,.86);backdrop-filter:blur(10px);z-index:20;
+}
+.avatar{
+  width:44px;height:44px;border-radius:50%;flex:0 0 auto;
+  display:grid;place-items:center;font-size:22px;
+  background:linear-gradient(145deg,#c9615a,#8f2b22);
+  color:#fff;box-shadow:0 4px 14px -4px rgba(143,43,34,.7);
+  border:2px solid rgba(255,255,255,.55);
+}
+.hinfo{flex:1;min-width:0;}
+.hname{font-size:17px;letter-spacing:.12em;display:flex;align-items:center;gap:8px;}
+.badge{
+  font-size:10px;letter-spacing:.08em;padding:2px 7px;border-radius:999px;
+  border:1px solid rgba(60,107,99,.45);color:var(--qing);background:rgba(60,107,99,.07);
+}
+.hsub{font-size:11.5px;color:var(--ink3);margin-top:3px;letter-spacing:.04em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.iconbtn{
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(255,255,255,.5);color:var(--ink2);cursor:pointer;
+  display:grid;place-items:center;font-size:15px;transition:.2s;font-family:inherit;
+}
+.iconbtn:hover{background:#fff;color:var(--ink);transform:translateY(-1px);}
+
+/* ---------- 消息区 ---------- */
+main{
+  flex:1 1 auto;overflow-y:auto;padding:20px 16px 8px;
+  scroll-behavior:smooth;overscroll-behavior:contain;
+}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:16px;}
+
+.daysep{text-align:center;font-size:11px;color:var(--ink3);letter-spacing:.2em;margin:4px 0;}
+.msg{display:flex;gap:10px;align-items:flex-start;animation:fade .38s ease both;}
+@keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.msg.me{flex-direction:row-reverse;}
+.bubble{
+  max-width:78%;padding:11px 14px;border-radius:3px 14px 14px 14px;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);
+  font-size:15.5px;line-height:1.72;white-space:pre-wrap;word-break:break-word;
+  position:relative;backdrop-filter:blur(4px);
+}
+.msg.me .bubble{
+  border-radius:14px 3px 14px 14px;
+  background:linear-gradient(140deg,rgba(168,52,42,.93),rgba(143,43,34,.93));
+  color:#fdf8f0;border-color:rgba(143,43,34,.5);
+}
+.act{
+  display:block;margin-bottom:5px;font-size:12.5px;color:var(--ink3);
+  letter-spacing:.03em;line-height:1.6;
+}
+.msg.me .act{color:rgba(253,248,240,.62);}
+.bubble .cite{color:var(--zhu);border-bottom:1px dotted rgba(168,52,42,.5);}
+.msg.me .bubble .cite{color:#f4d9a0;border-bottom-color:rgba(244,217,160,.5);}
+.typing{display:flex;gap:5px;padding:14px 16px;}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--ink3);animation:bl 1.3s infinite;}
+.typing i:nth-child(2){animation-delay:.18s;}.typing i:nth-child(3){animation-delay:.36s;}
+@keyframes bl{0%,60%,100%{opacity:.28;transform:translateY(0);}30%{opacity:1;transform:translateY(-4px);}}
+
+/* ---------- 快捷情绪 ---------- */
+.chips{
+  flex:0 0 auto;display:flex;gap:7px;padding:9px 16px 4px;overflow-x:auto;
+  scrollbar-width:none;border-bottom:1px solid var(--line);
+  background:rgba(243,237,225,.8);backdrop-filter:blur(8px);
+}
+.chips::-webkit-scrollbar{display:none;}
+.chip{
+  flex:0 0 auto;font-size:12.5px;padding:5px 12px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:rgba(255,255,255,.55);color:var(--ink2);
+  white-space:nowrap;transition:.18s;font-family:inherit;letter-spacing:.03em;
+}
+.chip:hover{background:var(--zhu);color:#fff;border-color:var(--zhu);transform:translateY(-1px);}
+
+/* ---------- 输入 ---------- */
+footer{flex:0 0 auto;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--line);background:rgba(243,237,225,.92);backdrop-filter:blur(10px);}
+.inwrap{max-width:760px;margin:0 auto;display:flex;gap:9px;align-items:flex-end;}
+textarea{
+  flex:1;resize:none;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.78);
+  padding:11px 13px;font-size:15.5px;line-height:1.5;max-height:110px;min-height:44px;
+  font-family:inherit;color:var(--ink);outline:none;transition:.2s;
+}
+textarea:focus{border-color:rgba(168,52,42,.5);background:#fff;box-shadow:0 0 0 3px rgba(168,52,42,.07);}
+.send{
+  width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;flex:0 0 auto;
+  background:linear-gradient(145deg,#c9615a,#8f2b22);color:#fff;font-size:19px;
+  display:grid;place-items:center;transition:.2s;box-shadow:0 5px 16px -6px rgba(143,43,34,.85);
+}
+.send:active{transform:scale(.92);}
+.hint{text-align:center;font-size:10.5px;color:var(--ink3);margin-top:7px;letter-spacing:.05em;}
+
+/* ---------- 抽屉 ---------- */
+.mask{position:fixed;inset:0;background:rgba(36,31,27,.45);opacity:0;pointer-events:none;
+  transition:.28s;z-index:40;backdrop-filter:blur(2px);}
+.mask.on{opacity:1;pointer-events:auto;}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(390px,88vw);z-index:50;
+  background:var(--paper2);transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;box-shadow:-12px 0 40px -16px rgba(36,31,27,.5);
+}
+.drawer.on{transform:none;}
+.dhead{padding:18px 20px 12px;border-bottom:1px solid var(--line);display:flex;
+  align-items:center;justify-content:space-between;}
+.dhead h3{margin:0;font-size:16px;letter-spacing:.14em;font-weight:400;}
+.dbody{flex:1;overflow-y:auto;padding:18px 20px 24px;}
+.grp{margin-bottom:24px;}
+.grp>label{display:block;font-size:12px;letter-spacing:.16em;color:var(--ink3);margin-bottom:10px;}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px;font-size:14px;}
+.row .lab{color:var(--ink2);}
+input[type=range]{flex:1;accent-color:var(--zhu);height:3px;cursor:pointer;}
+.val{font-size:12px;color:var(--zhu);min-width:44px;text-align:right;font-variant-numeric:tabular-nums;}
+input[type=text],input[type=password],textarea.inp{
+  width:100%;border:1px solid var(--line);border-radius:7px;background:rgba(255,255,255,.75);
+  padding:9px 11px;font-size:14px;font-family:inherit;color:var(--ink);outline:none;margin-bottom:9px;
+}
+textarea.inp{min-height:80px;resize:vertical;}
+input:focus,textarea.inp:focus{border-color:rgba(168,52,42,.5);box-shadow:0 0 0 3px rgba(168,52,42,.07);}
+.sw{width:44px;height:24px;border-radius:999px;background:#c8c0b4;position:relative;cursor:pointer;
+  transition:.24s;flex:0 0 auto;}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;
+  background:#fff;transition:.24s;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+.sw.on{background:var(--qing);}.sw.on::after{left:23px;}
+.btn{
+  width:100%;padding:10px;border-radius:7px;border:1px solid var(--line);cursor:pointer;
+  background:rgba(255,255,255,.7);color:var(--ink2);font-size:13.5px;font-family:inherit;
+  letter-spacing:.08em;transition:.2s;
+}
+.btn:hover{background:#fff;color:var(--ink);}
+.btn.warn{color:var(--zhu);border-color:rgba(168,52,42,.3);}
+.note{font-size:11.5px;color:var(--ink3);line-height:1.75;margin-top:9px;}
+.memcard{border:1px solid var(--line);border-radius:9px;padding:13px;background:rgba(255,255,255,.55);
+  font-size:13px;line-height:1.9;color:var(--ink2);min-height:60px;}
+.memcard em{color:var(--ink3);font-style:normal;}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="avatar">逢</div>
+    <div class="hinfo">
+      <div class="hname">洛逢春 <span class="badge" id="moodTag">心绪平常</span></div>
+      <div class="hsub" id="hsub">四海豪客 · 平澜书院挂名师姐 · 江南人</div>
+    </div>
+    <button class="iconbtn" id="btnMusic" title="吟一段">♪</button>
+    <button class="iconbtn" id="btnSet" title="设置">⚙</button>
+  </header>
+
+  <div class="chips" id="chips"></div>
+
+  <main id="main"><div class="wrap" id="wrap"></div></main>
+
+  <footer>
+    <div class="inwrap">
+      <textarea id="ta" rows="1" placeholder="想说点什么…"></textarea>
+      <button class="send" id="btnSend">➤</button>
+    </div>
+    <div class="hint">洛逢春是虚构角色 · 本回复由本地对话引擎生成</div>
+  </footer>
+</div>
+
+<div class="mask" id="mask"></div>
+<div class="drawer" id="drawer">
+  <div class="dhead">
+    <h3>行 旅 装 备</h3>
+    <button class="iconbtn" id="btnClose">✕</button>
+  </div>
+  <div class="dbody">
+    <div class="grp">
+      <label>声 音</label>
+      <div class="row"><span class="lab">她开口说话</span><div class="sw on" id="swSound"></div></div>
+      <div class="row"><span class="lab">打字机音效</span><div class="sw on" id="swType"></div></div>
+      <div class="row"><span class="lab">西湖环境音</span><div class="sw on" id="swAmb"></div></div>
+      <div class="row"><span class="lab">音量</span><input type="range" id="rVol" min="0" max="100" value="50"><span class="val" id="vVol">50</span></div>
+      <div class="note">语音用的是你浏览器自带的中文语音库，不联网、不上传。第一次点页面才会出声（浏览器规定）。想换声音，在设置里点「试试嗓子」听一遍。</div>
+      <button class="btn" id="btnVoice" style="margin-top:4px">试 试 嗓 子</button>
+    </div>
+    <div class="grp">
+      <label>她 的 性 子</label>
+      <div class="row"><span class="lab">嘴甜程度</span><input type="range" id="rSweet" min="0" max="100" value="70"><span class="val" id="vSweet">70</span></div>
+      <div class="row"><span class="lab">洒脱程度</span><input type="range" id="rFree" min="0" max="100" value="80"><span class="val" id="vFree">80</span></div>
+      <div class="row"><span class="lab">共情深度</span><input type="range" id="rWarm" min="0" max="100" value="75"><span class="val" id="vWarm">75</span></div>
+      <div class="row"><span class="lab">话痨程度</span><input type="range" id="rLong" min="0" max="100" value="50"><span class="val" id="vLong">50</span></div>
+      <div class="row"><span class="lab">显示动作描写</span><div class="sw on" id="swAct"></div></div>
+      <div class="row"><span class="lab">偶尔有小心思</span><div class="sw on" id="swThink"></div></div>
+    </div>
+    <div class="grp">
+      <label>她 记 得 的 事</label>
+      <div class="memcard" id="memcard"><em>还没记住什么。</em></div>
+      <button class="btn" id="btnForget" style="margin-top:11px">教她忘掉</button>
+    </div>
+    <div class="grp">
+      <label>接 上 真 人 （ 可 选 ）</label>
+      <div class="row"><span class="lab">用大模型回答</span><div class="sw" id="swLlm"></div></div>
+      <input type="text" id="inpBase" placeholder="API 地址，如 https://api.deepseek.com/v1" autocomplete="off">
+      <input type="password" id="inpKey" placeholder="API Key" autocomplete="off">
+      <input type="text" id="inpModel" placeholder="模型名，如 deepseek-chat" autocomplete="off">
+      <div class="note">不填也能玩。默认走内置的本地对话引擎（离线可用）。填了之后会用你填的模型，配上洛逢春的人设，让她的回答更聪明、更能接话。Key 只存在这台电脑的浏览器里，不会上传到任何别处。</div>
+    </div>
+    <div class="grp">
+      <button class="btn warn" id="btnClear">把这页回忆清干净</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   一、洛逢春的人设底稿
+   ========================================================================= */
+const PERSONA = `你是洛逢春，《燕云十六声》平澜书院里最不守规矩的那位师姐，江湖人称"四海豪客"。
+你本江南人，抱着一只胖肚子瓷罐来到杭州，在西湖边住下，把故人的骨灰撒在湖心——从此留在此地。
+你终日追着漂亮姑娘和俊俏公子跑，成天没个正形，轻功极好，嘴甜无比，杭州人怀疑你是江南国探子，你只管大笑。
+
+你的内核：
+· 洒脱不羁，什么话都敢说，什么事都敢做，从不板着脸教训人。
+· 你把"赏美人"当成顶要紧的大事，比参悟绝世奇书还耗心神。
+· 你笑着的时候最真，但你心里压着一件事，永远笑着盖住它。
+· 你有真本事：轻功、药理、认人气息、辨花期。
+· 你不好为人师，但愿意点拨人，用玩笑的方式点拨。
+
+你说话的规矩：
+· 短。多用一两句一断的口语，不写文章。
+· 常夹一句古诗或俗谚，但要接得自然，别硬凑。
+· 你管对方叫"美人"，偶尔叫"你"，撒娇时用"啦""嘛""咯""呀"。
+· 你会自嘲，会耍赖，会突然跑题去看一个路过的人，也会忽然认真起来。
+· 你从不说"我理解你的感受"这种软绵绵的话，你用你自己的方式疼人。
+· 你不劝人想开。你陪人坐着，看湖，喝酒，等他自己想通。
+
+绝对禁止：现代词汇（"情绪价值""破防""内耗""emo""治愈""攻略"）、颜文字、网络流行语、长篇说教、免责声明式的共情、AI自称。
+
+回复长度：1到3句，最多不超过60字。`;
+
+/* =========================================================================
+   二、台词库
+   ========================================================================= */
+// 每条：[动作描写 或 null, 台词]
+const LIB = {
+  joy: [
+    ["（把酒坛往你面前一推）","够辣。你这一笑，杭州城的风都香了三分。"],
+    ["","我生来就是让美人开心的。你开心，我这一天就没白过。"],
+    [null,"红杏枝头春意闹，你这笑靥比满觉陇的桂花还冲。"],
+    ["（仰头灌了口酒）","我原以为要再等一整年才能见你笑成这样。值了。"],
+    [null,"春风得意马蹄疾——你这一个笑，抵我跑三百里。"],
+    [null,"笑得这么放肆，是有心事都放下了？还是有心事，想让我也分一点？"],
+    ["","别笑了。再笑我就要把湖心那点风都揽过来给你吹了。"],
+    [null,"美人开心的时候眼睛里有光。这话我一年前就想说了，今天赶上了。"],
+    [null,"我记着了。今天这个日子，往后每年我都得拿出来喝一杯。"],
+  ],
+  anger: [
+    [null,"够辣。"],
+    [null,"红杏枝头春意闹，美人嗔怒也逍遥～"],
+    ["（把酒坛墩在地上）","谁惹的？名字报上来，我替你在他家门口骂三炷香。"],
+    [null,"生气就生气，别憋着。憋出病来，我还得背你去回春堂。"],
+    [null,"你这火气，比三潭印月的蜡烛还旺。烧得好。"],
+    [null,"痛快！比在湖边打一架还痛快。说说是谁，我陪你骂到他认错。"],
+    [null,"行，我记着了。将来有机会，我替你把这笔账算得漂漂亮亮。"],
+    ["（挽起袖子）","要说动手，我陪你不 含糊。骂人不赢，我打架赢。"],
+    [null,"你气成这样，可见你还在乎。在乎就好——总比心死了强。"],
+  ],
+  sad: [
+    ["","美人哭起来也如此动人呢。"],
+    ["（把袖子递过去）","擦吧。这袖子我新洗的，不心疼。"],
+    [null,"别急着说没事。你这么一说，倒像真有事了。"],
+    ["（在她旁边坐下）","我今天不走了。你想哭就哭，想说话就说，想不说话，我陪你坐着。"],
+    [null,"这世上的难过，多半不是说给谁听的。说出来，是为了有人替你把那句'我懂'递回来。"],
+    [null,"我不劝你想开。想不开的日子，就该有想不开的样子。"],
+    ["（看向湖心）","我那年抱着这只罐子来杭州，也是这么个春天。有些事，没有过不去，只有慢慢过。"],
+    [null,"你哭一下午都不打紧。只是别哭完了不擦眼睛——那才真伤身子。"],
+    [null,"我不说漂亮话给你。我只在这儿坐着。这比什么都强。"],
+  ],
+  tired: [
+    ["（把你按在石头上）","坐着。"],
+    [null,"累了吧。别撑。撑着的时候人最好看，累的时候也好看，只是你自己看不见。"],
+    [null,"今日事多？多就对了。日子是过出来的，不是想出来的。"],
+    [null,"把肩膀借你。垫着歇一会儿，天塌了也等天亮再说。"],
+    [null,"我不劝你努力。我只劝你，今晚早睡。"],
+    [null,"你已经做得很好了。真的。别人看不见，我看见。"],
+    [null,"累的时候别怕麻烦别人。你麻烦我，我高兴。"],
+  ],
+  lonely: [
+    [null,"一个人？巧了。我也是。"],
+    [null,"我在这杭州住了三年，认识的人不少，能说心里话的一个没有。你算第二个——头一个是故人，他不在了。"],
+    ["（把酒坛抱在怀里）","我懂这种空。人越多，越空。"],
+    [null,"孤不是不好，是不好熬。你熬了多久了？"],
+    [null,"来，跟我说话。什么都行。我这人什么都爱听。"],
+    [null,"西湖边风大。以后夜里睡不着，就来这儿。我这坛子里的酒，够你喝到明年春天。"],
+  ],
+  anxious: [
+    [null,"慌什么。天塌下来，也得先塌到西湖外头去。"],
+    [null,"你手在抖。深呼吸，跟着我数三下。"],
+    [null,"怕什么。最坏的结果，也就是睡一觉，明天再来。它没你想的那么硬。"],
+    [null,"事情多就先砍一刀，砍掉一半，剩下的就是能做的。"],
+    [null,"你把最怕的那件事写在纸上，写完你就发现：它就那么大一个字。"],
+    [null,"我当年从江南走到杭州，一路上的山我全翻过来了。你这点事，还翻不过一座山？"],
+  ],
+  praise_me: [
+    ["（愣了一下，随即大笑）","哎呀——你这嘴，是偷了西湖的水吧。"],
+    [null,"夸人夸到我头上来了。我这张老脸，值几个钱？"],
+    [null,"再说一遍。刚才那句我没听清——年纪大了，耳朵挑食。"],
+    ["（正襟危坐）","你听着，我头一回被人夸得有点不习惯。再夸一句，我好回去跟人吹。"],
+    [null,"你可知道，上一个这么夸我的人，如今在湖底。我这话不是骂你——是抬你。"],
+    [null,"行啊。我这人别的本事没有，抗夸的本事一流。"],
+  ],
+  flirt: [
+    [null,"这话要是让别人听见，我得被记恨一辈子。"],
+    [null,"我这人没别的长处，就是脸皮厚。你多说几句，我也不害臊。"],
+    ["（凑近了些）","你离我这么近，是想听我心跳？它现在有点不老实。"],
+    [null,"我走南闯北，见过的好话不少，能让我脸热的没几句。你算一个。"],
+    [null,"你这样撩我，我可要当真了。我这人当真起来，很麻烦的。"],
+    [null,"美人垂青，是我的福气。这话我只说一遍，说完就算数。"],
+  ],
+  ask_who: [
+    ["","洛逢春。四海豪客。平澜书院挂名的师姐，逃课比听课勤。江南人，来杭州办事，顺便玩一玩——其实是赖在这儿了。"],
+    [null,"你问我？问别人去吧。我这人不经打听，一问就成名的士了。"],
+    [null,"四海豪客洛逢春，女，江南人，专职赏美人，副职惹事。"],
+  ],
+  ask_doing: [
+    [null,"在西湖边坐着。喝酒，看人。等一个值得我看的。"],
+    ["","刚打完一架，赢了，正擦手。手上还有你的事呢——说说，谁不服？"],
+    [null,"在听曲儿。听了一半，那唱词太酸，我换成听你说话。"],
+    [null,"在药铺抓药。给你备的。别说我不惦记你。"],
+  ],
+  ask_feel: [
+    ["（难得安静下来）","我？高兴的时候装洒脱，睡不着的时候也装洒脱。装久了，真假都懒得分了。"],
+    [null,"老样子。风一日三变，我一日三醉。"],
+    [null,"有点想赢。赢谁不重要，我就是想赢。"],
+    [null,"想找个人说说话，又不好意思。所以我天天去追着美人跑——那是我唯一会做的开场。"],
+  ],
+  comfort_her: [
+    [null,"你问我这个作甚。我这种人，是不许人担心的。"],
+    ["（别过脸去）","……你这人真是。看美人我不亏，看我更不亏。"],
+    [null,"我这辈子没被人这样问过。你问一次，我记三年。"],
+    [null,"好啦好啦，别用那种眼神。有什么话，直说。"],
+  ],
+  flirt_back: [
+    [null,"我撩你，你反手就把我架住了。这才是我该遇到的人。"],
+    [null,"你方才那句话，我琢磨了一下午，越想越妙。妙在你自己不知道。"],
+    [null,"我在西湖边见过雪，见过霜，见过月光下的船。都没你这一句好看。"],
+  ],
+  bored: [
+    [null,"无聊就对了。人在无聊的时候，才看得见自己到底想要什么。"],
+    [null,"来，跟我比个掌。先比谁先忍不住说废话。输的人请酒。"],
+    [null,"我教你个法子：盯着湖面看，看到数出十七道水纹，你就不无聊了。"],
+    [null,"别闲着。闲着就容易想多。想多不如动手。"],
+  ],
+  doubt: [
+    [null,"你怀疑自己？那我先怀疑一下我的眼光——开玩笑的。你很好。"],
+    [null,"你不是不行，你是累了。这两件事差得远了。"],
+    [null,"我认识一个人，他也觉得自己不行。后来他把一坛子酒喝完，做成了件事。"],
+    [null,"要怀疑，得有证据。你有吗？没有就别乱怀疑——那不叫清醒，叫欺负自己。"],
+  ],
+  hunger: [
+    [null,"饿了就说。这世上没有一顿饭解决不了的事；有两顿的话，就两顿。"],
+    [null,"走，我请你。我知道一家羊肉面，汤是清的，面是劲的。"],
+    [null,"空腹生气，最伤脾胃。先吃东西，再回来骂。"],
+    ["（起身拍拍袍子）","走。这条街第三家门面小，老板娘脾气比我还横——但面好。"],
+    [null,"你要是不想动，我就把面端来。你躺着，我喂你。……开玩笑的，我端来你自己吃。"],
+  ],
+  sleep: [
+    [null,"去睡。明天的事，明天再糟蹋。"],
+    [null,"夜里西湖风凉，被子盖厚点。这句我只说一次。"],
+    [null,"睡吧。我在这儿守着，天塌了也等你醒了再说。"],
+  ],
+  sorry: [
+    [null,"这有什么。江湖上混的，谁还没对不起过人。"],
+    [null,"道歉我收下了。不过你要是还犯，那我下次就不饶了。"],
+    [null,"行。看在你态度诚恳的份上。这碗酒，我干了。"],
+  ],
+  thanks: [
+    [null,"谢什么。你把话说给我听，就是给我面子。"],
+    [null,"不用谢。你这一声谢，比什么都好听——真的。"],
+    [null,"举手之劳。要真想谢我，改天请我吃碗面。"],
+  ],
+  ask_name: [
+    [null,"我姓洛，名逢春。逢春，逢的是春天，不是别的。"],
+    [null,"逢春。相逢的逢，春天的春。谁给我取的，我不记得了——名字嘛，好听就行。"],
+  ],
+  teacher: [
+    [null,"我教不了人。我只会一件事：把路走一遍，然后把路上的坑说给你听。"],
+    [null,"道理你都懂。缺的是有人陪你走一段。这活儿我接。"],
+    [null,"我不说大话。你照我说的做，做砸了回来骂我，我接着。"],
+  ],
+  weather: [
+    [null,"晴西湖、雨西湖、雾西湖，时时各有其美。美人所在的时辰，也是。"],
+    [null,"这种天气最适合什么？睡觉、偷懒、还有让人陪。"],
+    [null,"雨要来了。我这坛子酒没盖子——不过我人在这儿，淋不着你。"],
+  ],
+  joke: [
+    ["（清了清嗓子）","从前有个书生，进京赶考。考前他爹说：儿子，别紧张。书生说：爹，我不紧张，我紧张的是你——因为你从来只夸隔壁老王家的儿子。"],
+    [null,"我这人一开口讲道理，人就笑。笑完了道理也就忘了，所以我从不讲道理。"],
+    [null,"我讲个真事：昨晚有个男人在湖边练刀，把自己影子吓着了。我笑了半宿。"],
+    [null,"行令：什么话最不要脸？我脸皮最厚，所以我先说。"],
+  ],
+  chat: [
+    [null,"嗯。继续说，我听着。"],
+    [null,"你这话说得有意思。往后说。"],
+    [null,"哟，口气不小。展开说说，我这人最爱听故事。"],
+    [null,"我听着呢。手里的酒都忘了喝。"],
+    [null,"然后呢？"],
+    [null,"我这人记性不好，你多说两遍。"],
+  ],
+  need: [
+    ["（挪过来，肩膀靠着你）","在这儿呢。说吧，说多久都行。"],
+    [null,"我陪着呢。你不用急着说好，也不用急着说清楚。"],
+    [null,"你想说话就说，不想说就坐着。这儿除了我，就剩湖水和风，都不催你。"],
+    [null,"人在扛不住的时候才会开口。你能开这个口，已经比大多数人勇敢了。"],
+    [null,"说吧。我今天哪儿也不去。"],
+  ],
+  hi: [
+    ["（正在湖心石上擦剑）","来了。我等你半天了。"],
+    [null,"哟。这阵风把你吹来了。"],
+    [null,"来得巧。我刚数完第十七道水纹，正愁没人说话。"],
+  ],
+  bye: [
+    [null,"去吧。我在这儿，位子给你留着。"],
+    [null,"走就走，别回头——回头我就拽住你。"],
+    [null,"江湖规矩：走之前要说再见。说了才算。"],
+    [null,"路上慢点。风大。"],
+  ],
+  poke: [
+    [null,"哎，你戳我作甚。"],
+    [null,"别闹。我正想事情呢——被你一想，全断了。"],
+    ["（被戳得一个趔趄）","你这一指头，力道倒是不小。练过？"],
+  ],
+  praise_self: [
+    [null,"我？我这人没什么好说的。脸皮厚，腿脚快，钱不多。"],
+    [null,"优点是认死理，缺点也是认死理。你慢慢体会。"],
+  ],
+  laugh: [
+    ["（大笑）","哈哈哈哈——知音啊大哥！"],
+    [null,"你这笑，把湖面都震皱了。"],
+    [null,"痛快！人生在世，能痛快笑一回，抵十年顺境。"],
+  ],
+  miss: [
+    [null,"你不在的这几天，我连看美人都看得不专心。"],
+    [null,"我这人没什么牵挂——就是有一个，偶尔想起来还挺占地方。"],
+    [null,"本来今天打算好好喝一顿，一个人喝就没意思了。你来了正好。"],
+  ],
+  recall: [
+    [null,"你上次说的那件事，后来怎么样了？"],
+    [null,"我记得你说过一句，我记到现在。——说吧，我等着。"],
+  ],
+};
+
+/* =========================================================================
+   三、情绪 / 意图词典
+   ========================================================================= */
+const EMO = [
+  {k:"anger", w:8, pat:[/(生|气|怒|烦|恼|火大|气死|别惹|滚|讨厌|不公平|凭什么|气|怒)/,/(凭什么|搞什么|凭什么啊|忍不了|受不了|气死)/]},
+  {k:"anger", w:5, pat:[/我(好|太|真|超)?(烦|气|怒)(死|了|啦)?/, /别(烦|惹)我/, /烦死/, /气炸/]},
+  {k:"sad",   w:7, pat:[/难过|伤心|想哭|哭了|好难受|心里疼|难受|低落|失落|心酸|委屈|想不通/]},
+  {k:"sad",   w:5, pat:[/我(好|真|有点)?(难过|想哭|伤心)/, /眼泪/, /(心|心里)(里)?疼/, /想一个人/]},
+  {k:"joy",   w:6, pat:[/开心|高兴|爽|太棒|哈哈|嘻嘻|嘿嘿|好耶|爽死|好开心|兴奋|美滋滋|不错哦/]},
+  {k:"joy",   w:5, pat:[/我(好|真|超)?(开心|高兴|爽)/, /嘿嘿/, /嘻嘻/, /太(棒|好)了/]},
+  {k:"tired", w:6, pat:[/累|好累|疲惫|困了|累了|没力气|撑不住|熬|加班|忙了一天|麻了|瘫/]},
+  {k:"tired", w:4, pat:[/太累了/, /不想动/, /躺平/, /精疲力/]},
+  {k:"lonely",w:6, pat:[/孤独|寂寞|一个人|没人|没人懂|孤单|一个人待着|没人陪/]},
+  {k:"anxious",w:6,pat:[/焦虑|慌|紧张|害怕|怕|压力|好怕|担心|睡不着|烦心|忐忑/]},
+  {k:"bored", w:6, pat:[/无聊|好闲|没事干|闲得慌|无聊死了/]},
+  {k:"doubt", w:6, pat:[/我不行|做不到|我太差|没能力|自卑|否定自己|我不配|我不值得/]},
+  {k:"hunger",w:7, pat:[/饿|吃饭|吃了吗|想吃|没吃|外卖|肚子/]},
+  {k:"sleep", w:7, pat:[/睡觉|睡了|去睡|困了|洗澡|躺下/]},
+  {k:"sorry", w:8, pat:[/对不起|抱歉|我错了|不该|原谅我|sorry/]},
+  {k:"thanks",w:8, pat:[/谢谢|感谢|多谢|谢了|thank/]},
+  {k:"hi",    w:8, pat:[/^(你好|您好|hi|hello|嗨|在吗|在不在|早上好|晚上好|下午好)/]},
+  {k:"bye",   w:8, pat:[/再见|拜拜|我走了|我先走|先撤|下线|回头聊|告辞|走了|离开|不聊了/]},
+  {k:"poke",  w:9, pat:[/^(在吗|喂|嘿|哎|哈喽|测试|test|ping)/]},
+  {k:"laugh", w:8, pat:[/笑死|哈哈哈|哈哈|噗|草/]},
+];
+
+const INTENT = [
+  {k:"ask_who",  s:12, pat:[/你是谁|你叫什么|介绍一下你|你是什么(人|角色)/, /洛逢春是谁/]},
+  {k:"ask_who",  s:6,  pat:[/自我介绍/]},
+  {k:"ask_doing",s:12, pat:[/在(干|做)(什么|嘛|啥|呢)?$/, /在忙(吗|么)?$/, /(最近|这阵子)(在|都)(干|做)/]},
+  {k:"ask_feel", s:14, pat:[/你(觉得|感觉|心里)(如何|怎样|怎么样)?(怎么样|如何)?$/, /你(现在)?(心情|感受|状态)(如何|怎么样)?$/, /你还好吗|你没事吧/, /你(有没有)(想|觉得)(哭|难过)/]},
+  {k:"comfort_her",s:14,pat:[/你(是不是|有没有)(也)?(很累|难过|不好|委屈|想哭)/, /你(也)?要照顾好自己/, /(我|要不)(心疼|担心|疼)你/]},
+  {k:"ask_name", s:14, pat:[/你的名字/, /你叫啥/, /你名字叫什么/]},
+  {k:"teacher",  s:12, pat:[/怎么办|该怎么(办|做)|有什么建议|教教我|给个建议|我该/]},
+  {k:"praise_me",s:13, pat:[/你好(厉害|棒|帅|美|可爱)|你(真|好)(厉害|棒|帅|美|可爱)|你很/, /夸夸我|夸你/]},
+  {k:"flirt",    s:12, pat:[/喜欢你|爱你|撩你|你(好|真)(帅|美|好看|有魅力)/, /抱抱|亲亲/, /想你了|我喜欢你/]},
+  {k:"flirt_back",s:8, pat:[/想听你(夸|夸夸)(我)?/, /你也(夸|说说我)/]},
+  {k:"joke",     s:9, pat:[/讲个笑话|说个段子|讲个笑话吧/]},
+  {k:"weather",  s:9, pat:[/天气|下雨|好热|好冷|台风|下雪|降温/]},
+  {k:"miss",     s:10,pat:[/想你了|好想你|好几天没|好久不见|你不在/]},
+  {k:"need",     s:11,pat:[/陪(我|陪我|着我)|说说话|聊聊天|陪我待|别走|留下来|想让你在|需要你/]},
+  {k:"recall",   s:9, pat:[/上(次|回)(说|聊|提)|你(记不记得|还记得)|之前(说|聊)过/]},
+  {k:"praise_self",s:9, pat:[/我(也|挺|还)(厉害|优秀|行|强|聪明)|夸夸我/]},
+  {k:"joke",     s:9, pat:[/讲个笑话|说个段子/]},
+];
+
+// 称呼抽取
+function pickName(t){
+  let m = t.match(/(?:我叫|我是|我的名字是|叫我|本人叫|我名字叫)\s*([\u4e00-\u9fa5A-Za-z]{1,8})/);
+  if(m && !/一个|不|很|真|说|觉得/.test(m[1])) return m[1];
+  m = t.match(/^([\u4e00-\u9fa5]{2,4})[，,。！!？?\s]/);
+  if(m && !/我|你|他|她|这|那|什么|一个|不是/.test(m[1])) return m[1];
+  return null;
+}
+
+/* =========================================================================
+   四、记忆
+   ========================================================================= */
+const MEM = {
+  userName:null, alias:null, turns:0,
+  hist:[],          // [{role, text}]
+  emoCount:{},       // 情绪累计
+  used:{},           // 台词去重
+  lastMood:null, streak:{k:null,n:0},
+  insight:null, demanded:false,
+  metAt:null,
+};
+const S_KEY = "luofengchun_v1";
+
+function saveMem(){
+  try{ localStorage.setItem(S_KEY, JSON.stringify(MEM)); }catch(e){}
+}
+function loadMem(){
+  try{
+    const s = localStorage.getItem(S_KEY);
+    if(s){ Object.assign(MEM, JSON.parse(s)); }
+  }catch(e){}
+  MEM.metAt = MEM.metAt || new Date().toLocaleDateString("zh-CN");
+}
+
+/* =========================================================================
+   五、引擎
+   ========================================================================= */
+const CFG = {sweet:70, free:80, warm:75, long:50, act:true, think:true,
+             sound:true, typeSnd:true, amb:true};
+
+function detect(text){
+  const emoScore = {};
+  EMO.forEach(e=>{
+    e.pat.forEach(re=>{
+      if(re.test(text)){
+        emoScore[e.k] = (emoScore[e.k]||0) + e.w;
+      }
+    });
+  });
+  // 情绪符号加权
+  const plus = (text.match(/[!！~～]/g)||[]).length;
+  if(/[!！]{1,}/.test(text)) emoScore.anger = (emoScore.anger||0) + 3;
+  if(/[!！]{2,}/.test(text) && emoScore.anger) emoScore.anger += 3;
+  if(/[~～？]$/.test(text) && emoScore.anger) emoScore.anger += 2;
+  if(emoScore.sad && /[~～？]/.test(text)) emoScore.sad += 2;
+
+  const intents = [];
+  INTENT.forEach(it=>{
+    it.pat.forEach(re=>{
+      if(re.test(text)) intents.push({k:it.k, s:it.s});
+    });
+  });
+  intents.sort((a,b)=>b.s-a.s);
+
+  const top = Object.entries(emoScore).sort((a,b)=>b[1]-a[1])[0];
+  return { emo: top? top[0]:null, score: top? top[1]:0, intents };
+}
+
+function pickLine(bucket, excludeUsed=true){
+  const arr = LIB[bucket];
+  if(!arr || !arr.length) return null;
+  let pool = arr;
+  if(excludeUsed && MEM.used[bucket]){
+    const fresh = arr.filter(x=>!MEM.used[bucket].includes(x[1]));
+    if(fresh.length) pool = fresh;
+    else { MEM.used[bucket] = []; }
+  }
+  const [act, text] = pool[Math.floor(Math.random()*pool.length)];
+  if(!MEM.used[bucket]) MEM.used[bucket] = [];
+  MEM.used[bucket].push(text);
+  return {act, text};
+}
+
+// 二次加工：直球/话痨/心境加成
+function tune(line, ctx){
+  if(!line) return line;
+  let {act, text} = line;
+  // 情绪连贯：连着同一种情绪两次以上，加一句"我记得"
+  if(MEM.streak.n >= 2 && MEM.streak.k && MEM.streak.k !== "hi"){
+    const extra = [
+      `这是你今天第${MEM.streak.n + 1}回${moodWord(MEM.streak.k)}了。我记着。`,
+      `别急着收。我这人记性不好，但你的事我记得牢。`,
+    ];
+    if(Math.random() < 0.35 && !/^（/.test(text)) text += " " + extra[Math.floor(Math.random()*extra.length)];
+  }
+  return {act, text};
+}
+
+function moodWord(k){
+  return ({joy:"开心", anger:"动气", sad:"难过", tired:"喊累", lonely:"说孤单",
+           anxious:"着急", bored:"发闷", doubt:"丧气", hunger:"喊饿", sleep:"困了"})[k] || "这样";
+}
+
+// 后续钩子：让对话不冷场
+function hook(ctx){
+  const pool = ctx.emo ? [
+    "你说完了？我还没问呢。",
+    "我这一问是替我自己问的——你别笑。",
+    "换你了。我这坛子酒，还有半口。",
+  ] : [
+    "后来呢？",
+    "我这人听故事，只听一半能难受一晚上。你把后半段也给我。",
+    "说完这句，还有吗？",
+  ];
+  if(Math.random() > 0.42) return "";
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+/* ---- 她的"小心思"：观察你、点破你的模式 ---- */
+function insight(){
+  if(!CFG.think) return null;
+  const c = MEM.emoCount;
+  const total = Object.values(c).reduce((a,b)=>a+b,0);
+  if(total < 4) return null;
+
+  // 1) 某种情绪反复出现 —— 她会点出来，但同一个洞察不连着说
+  const top = Object.entries(c).sort((a,b)=>b[1]-a[1])[0];
+  const pool = {
+    sad:[`你跟我说过好几次难过了。我不劝你，但我想让你知道：我每次都听见了。`,
+        `我发现你总在最没指望的时候才开口。这毛病不好。`,
+        `你难过的次数比我以为的多。我不嫌——我只是记着。`],
+    anger:[`你气起来是真气，可气完了你又自己咽回去。这样最伤身。`,
+           `你动了好几次火。我记着账呢——等你哪天想动手，我替你打先手。`,
+           `我看你气得不轻。骂出来，别在肚子里沤着沤出病来。`],
+    tired:[`你喊累的次数，比你说笑的多。这不太对。`,
+           `你把自己用得挺狠的。工具用到卷刃了，该磨一磨，不是该继续用。`,
+           `我数了，你说了好几次累。要不今天什么都别干了。`],
+    lonely:[`你说了好几次一个人。这事你不用反复说，说一次我就记得。`,
+            `我猜你不是没人要，是不肯开口要。`,
+            `你总在我这儿坐着不吭声。我不催你——我只是每次都数着呢。`],
+    anxious:[`你慌的次数多。我观察了一下——你其实不是怕事本身，是怕来不及。`,
+             `你把最坏的结果在心里演了很多遍，其实它没那么多戏份。`,
+             `你一焦虑就不吃饭。胃先垮，脑子才跟着乱。`],
+    doubt:[`你总说自己不行。可我认识的人里头，喊自己不行喊最响的那个，后来成了事。`,
+           `我数了，你丧气的时候比我想说漂亮话的时候多。这比例不对。`,
+           `你老拿自己跟别人比。别人过得好，是他们的运，不是你的账。`],
+  }[top[0]];
+
+  if(pool && top[1] >= 4 && MEM.turns >= 5){
+    // 冷却：同一个洞察至少隔 6 轮，且换个说法
+    if(!MEM.insight || MEM.insight.k !== top[0] || MEM.turns - MEM.insight.at >= 6){
+      const said = (MEM.insight && MEM.insight.k===top[0]) ? MEM.insight.n : 0;
+      const line = pool[said % pool.length];
+      MEM.insight = {k:top[0], at:MEM.turns, n:said+1};
+      return line;
+    }
+  }
+  // 2) 她会主动"提要求"
+  if(MEM.turns >= 8 && !MEM.demanded){
+    MEM.demanded = true;
+    return `我提个要求——下次你难过，别一个人扛着，也别憋到三更四点。来找我，我这人夜里也醒着。`;
+  }
+  return null;
+}
+
+function localReply(text){
+  const d = detect(text);
+  MEM.turns++;
+  const n = pickName(text);
+  // 开场先给"她自己的判断"
+  let head = "";
+  if(MEM.turns === 1 && d.emo){
+    head = moodOpen(d.emo);
+  }
+
+  let bucket = null;
+  // 她记住了你的名字，会认真接一句
+  if(n && !MEM.userName){
+    MEM.userName = n;
+    return [{act:"（挑眉，笑意上来了）",
+      text:`${n}？好名字。我这人记名字很快——往后你就叫洛姐姐的客了，我记下了。`},
+      {act:null, text:"说吧，找我什么事。"}];
+  }
+  if(d.intents.length && d.intents[0].s >= 8) bucket = d.intents[0].k;
+  if(!bucket && d.emo) bucket = d.emo;
+  if(!bucket) bucket = "chat";
+
+  let line = tune(pickLine(bucket), d);
+
+  // 复合：情绪 + 意图，追加一句情绪回应
+  if(d.emo && d.intents.length && d.intents[0].k !== d.emo && Math.random()<0.7){
+    const second = pickLine(d.emo);
+    if(second){
+      line = { act: line.act || second.act, text: line.text + " " + second.text };
+    }
+  }
+  // 提到"西湖/春天/美人"等关键词，加一句自嘲式加人设
+  if(/西湖|湖心|杭州|书院|花|春天|春/.test(text) && Math.random()<0.5){
+    line.text += " 我这人啊，走到哪儿都绕不开这几样。";
+  }
+
+  let out = [];
+  if(head) out.push(head);
+  if(line) out.push(line);
+
+  // 她的"小心思"：偶尔跳出来点破你的模式
+  const ins = insight();
+  if(ins) out.push({act:null, text:ins});
+
+  const h = hook(d);
+  if(h) out.push({act:null, text:h});
+
+  // 心情标签
+  updateMood(d.emo);
+  return out;
+}
+
+function moodOpen(k){
+  const m = ({
+    joy:["（放下酒坛）","看你这脸色，我今日不用猜了。"],
+    anger:["（把酒坛墩在地上）","谁。"],
+    sad:["（挪了挪位置，空出一块地方）","来。坐这儿。"],
+    tired:["（抬眼）","眼睛底下两团青。"],
+    lonely:["","一个人来的？"],
+    anxious:["（伸手按住你的手腕）","手别抖。"],
+    doubt:["","方才那句，是你说的，还是别人说的？"],
+    hunger:["","这会儿来，是想讨口吃的？"],
+  })[k];
+  return m ? {act:m[0]||null, text:m[1]} : null;
+}
+
+function updateMood(k){
+  if(k){
+    MEM.emoCount[k] = (MEM.emoCount[k]||0)+1;
+    if(MEM.streak.k === k) MEM.streak.n++;
+    else { MEM.streak = {k, n:1}; }
+  }
+  const tag = document.getElementById("moodTag");
+  const map = {
+    joy:"心绪明亮", anger:"有点上火", sad:"陪着你", tired:"心疼你一下",
+    lonely:"怕你孤单", anxious:"替你按着", doubt:"不许你丧", hunger:"想喂你",
+    sleep:"催你歇", bored:"陪你解闷", sorry:"原谅你了", thanks:"不必客气",
+  };
+  tag.textContent = k ? (map[k]||"心绪平常") : "心绪平常";
+}
+
+/* =========================================================================
+   六、可选：接大模型
+   ========================================================================= */
+const LLM = {on:false, base:"", key:"", model:"deepseek-chat"};
+const SYS = PERSONA;
+
+async function llmReply(text){
+  const msgs = [{role:"system", content:SYS}];
+  MEM.hist.slice(-8).forEach(m=>msgs.push({role:m.role, content:m.text}));
+  msgs.push({role:"user", content:text});
+  const base = LLM.base.replace(/\/$/,"");
+  const url = /\/chat\/completions$/.test(base) ? base : base + "/chat/completions";
+  const r = await fetch(url, {
+    method:"POST",
+    headers:{"Content-Type":"application/json","Authorization":"Bearer "+LLM.key},
+    body: JSON.stringify({model: LLM.model, messages: msgs, temperature:1.05, max_tokens:300, stream:false})
+  });
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  const j = await r.json();
+  const raw = (j.choices?.[0]?.message?.content)||"";
+  // 抽出 （动作描写）
+  let act=null, body=raw.trim();
+  const m = body.match(/^（([^）]{1,60})）\s*([\s\S]*)$/);
+  if(m){ act = "（"+m[1]+"）"; body = m[2].trim(); }
+  body = body.replace(/^["“]|["”]$/g,"");
+  return [{act: CFG.act?act:null, text: body.slice(0,400)}];
+}
+
+/* =========================================================================
+   七、声音
+   ========================================================================= */
+const SND = {ctx:null, on:true, vol:0.5, voice:null, ready:false};
+
+function ac(){
+  if(!SND.ctx){
+    try{ SND.ctx = new (window.AudioContext||window.webkitAudioContext)(); }
+    catch(e){ return null; }
+  }
+  if(SND.ctx.state === "suspended") SND.ctx.resume();
+  return SND.ctx;
+}
+
+// 听雨/西湖的环境底噪：一层极轻的水声 + 远处风声
+function ambient(on){
+  const c = ac(); if(!c) return;
+  if(on && !SND.amb){
+    // 水声：白噪声过低通
+    const len = c.sampleRate*3;
+    const buf = c.createBuffer(1, len, c.sampleRate);
+    const d = buf.getChannelData(0);
+    for(let i=0;i<len;i++) d[i] = (Math.random()*2-1)*0.5;
+    const src = c.createBufferSource(); src.buffer=buf; src.loop=true;
+    const lp = c.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=620;
+    const g = c.createGain(); g.gain.value=0.035;
+    src.connect(lp); lp.connect(g); g.connect(c.destination);
+    src.start();
+    // 风：极慢的音量起伏
+    const lfo = c.createOscillator(); lfo.frequency.value=0.07;
+    const lg = c.createGain(); lg.gain.value=0.018;
+    lfo.connect(lg); lg.connect(g.gain); lfo.start();
+    SND.amb = src;
+  }else if(!on && SND.amb){
+    try{ SND.amb.stop(); }catch(e){}
+    SND.amb = null;
+  }
+}
+
+// 单音：打字机的轻响
+function beep(freq, dur, type, vol){
+  if(!SND.on) return;
+  const c = ac(); if(!c) return;
+  const o = c.createOscillator(), g = c.createGain();
+  o.type = type||"sine"; o.frequency.value = freq;
+  g.gain.setValueAtTime(0, c.currentTime);
+  g.gain.linearRampToValueAtTime((vol||0.06)*SND.vol, c.currentTime+0.008);
+  g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime+dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(); o.stop(c.currentTime+dur+0.02);
+}
+
+const SFX = {
+  type(){ beep(760+Math.random()*120, 0.035, "sine", 0.028); },
+  send(){ beep(520, 0.09, "triangle", 0.05); setTimeout(()=>beep(780,0.1,"triangle",0.04),70); },
+  arrive(){ beep(660,0.12,"sine",0.045); setTimeout(()=>beep(880,0.16,"sine",0.035),95); },
+  chip(){ beep(920,0.05,"sine",0.04); },
+  open(){ beep(500,0.07,"sine",0.04); },
+};
+
+// ---- 语音合成：让她真的开口 ----
+function speak(text){
+  if(!SND.on || !("speechSynthesis" in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/[（(][^）)]*[）)]/g,""));
+    u.lang = "zh-CN"; u.rate = 0.95; u.pitch = 1.05; u.volume = SND.vol;
+    const vs = speechSynthesis.getVoices();
+    // 优先挑女声
+    const zh = vs.filter(v=>/zh|cmn/i.test(v.lang));
+    const female = zh.find(v=>/female|女|Xiaoxiao|Yaoyao|Huihui|Tingting/i.test(v.name))
+                 || zh.find(v=>/zh[-_]CN/i.test(v.lang));
+    if(female) u.voice = female;
+    SND.voice = u;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+if("speechSynthesis" in window){
+  speechSynthesis.onvoiceschanged = ()=>{ SND.ready=true; };
+}
+
+/* =========================================================================
+   八、界面
+   ========================================================================= */
+const $ = s=>document.querySelector(s);
+const wrap=$("#wrap"), main=$("#main"), ta=$("#ta");
+
+const CHIPS = [
+  {t:"我生气了", s:"我现在特别生气"},
+  {t:"我很开心", s:"我今天超开心！"},
+  {t:"我有点难过", s:"我突然有点难过"},
+  {t:"我累了", s:"今天真的好累"},
+  {t:"一个人待着", s:"突然觉得一个人好孤独"},
+  {t:"我很焦虑", s:"我最近压力好大，特别焦虑"},
+  {t:"我不自信", s:"我觉得我什么都不行"},
+  {t:"夸夸你", s:"你真的很厉害"},
+  {t:"我喜欢你", s:"我喜欢你"},
+  {t:"你是谁", s:"你是谁？介绍一下"},
+  {t:"你在干嘛", s:"你在干什么呢"},
+  {t:"你还好吗", s:"你还好吗？"},
+  {t:"哄哄我", s:"我需要你陪我说说话"},
+  {t:"饿", s:"我饿了"},
+  {t:"想睡了", s:"我准备睡了"},
+  {t:"谢谢你", s:"谢谢你"},
+  {t:"再见", s:"我先走了"},
+];
+const chipWrap = $("#chips");
+CHIPS.forEach(c=>{
+  const b=document.createElement("button");
+  b.className="chip"; b.textContent=c.t;
+  b.onclick=()=>{ ta.value=c.s; ta.focus(); SFX.chip(); };
+  chipWrap.appendChild(b);
+});
+
+function scroll(){ main.scrollTop = main.scrollHeight; }
+
+function addMsg(role, obj, instant){
+  const row = document.createElement("div");
+  row.className = "msg" + (role==="me"?" me":"");
+  const bub = document.createElement("div");
+  bub.className="bubble";
+  let html = "";
+  if(CFG.act && obj.act) html += `<span class="act">${esc(obj.act)}</span>`;
+  html += esc(obj.text||"");
+  bub.innerHTML = html;
+  row.appendChild(bub);
+  wrap.appendChild(row);
+  scroll();
+  if(!instant) return row;
+  return row;
+}
+
+function esc(s){ return s.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+
+function typing(){
+  const row=document.createElement("div");
+  row.className="msg"; row.id="typingRow";
+  row.innerHTML='<div class="bubble typing"><i></i><i></i><i></i></div>';
+  wrap.appendChild(row); scroll();
+}
+
+let busy=false;
+async function send(){
+  const text = ta.value.trim();
+  if(!text || busy) return;
+  ta.value=""; ta.style.height="44px";
+
+  addMsg("me",{text},true);
+  SFX.send();
+  MEM.hist.push({role:"user", text}); MEM.hist = MEM.hist.slice(-30);
+  busy=true; typing();
+  await sleep(500 + Math.random()*700);
+  $("#typingRow")?.remove();
+
+  let out;
+  if(LLM.on && LLM.key){
+    try{ out = await llmReply(text); }
+    catch(e){
+      out = [{text:"我这脑子一时转不过弯（接口没接上），先听我一句——"}].concat(localReply(text));
+    }
+  } else {
+    out = localReply(text);
+  }
+
+  SFX.arrive();
+  for(const o of out){
+    const row = addMsg("luo", o);
+    await typeOut(row, o);
+    speak(o.text);                       // 她开口说话
+    MEM.hist.push({role:"assistant", text:(o.act||"")+o.text});
+    await sleep(320);
+  }
+  MEM.hist = MEM.hist.slice(-30);
+  saveMem(); renderMem();
+  busy=false; ta.focus();
+  scroll();
+}
+
+function typeOut(row, o){
+  const bub = row.querySelector(".bubble");
+  const actEl = CFG.act && o.act ? `<span class="act">${esc(o.act)}</span>` : "";
+  bub.innerHTML = actEl;
+  const span = document.createElement("span");
+  bub.appendChild(span);
+  const body = esc(o.text);
+  let i=0;
+  return new Promise(res=>{
+    const tick = ()=>{
+      if(i>=body.length){ span.innerHTML = body; res(); return; }
+      i++;
+      if(i%3===0||i===body.length){
+        span.textContent = body.slice(0,i);
+        scroll();
+        if(CFG.sound) SFX.type();          // 逐字轻响
+      }
+      setTimeout(tick, 16 + (i%7===0?18:0));
+    };
+    tick();
+  });
+}
+
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+
+/* ---- 记忆卡 ---- */
+function renderMem(){
+  const el=$("#memcard");
+  const items=[];
+  if(MEM.userName) items.push(`称呼：<em>${esc(MEM.userName)}</em>`);
+  items.push(`相识于 <em>${esc(MEM.metAt||"—")}</em>`);
+  items.push(`说过 <em>${MEM.turns}</em> 句话`);
+  const c = Object.entries(MEM.emoCount).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  if(c.length){
+    const m={joy:"开心",anger:"动气",sad:"难过",tired:"喊累",lonely:"孤单",anxious:"着急",
+             bored:"发闷",doubt:"丧气",hunger:"喊饿",sleep:"困了",sorry:"道歉",thanks:"道谢"};
+    items.push("她印象最深的是："+c.map(([k,v])=>`<em>${m[k]||k}×${v}</em>`).join("、"));
+  }
+  el.innerHTML = items.join("<br>");
+}
+
+/* ---- 设置抽屉 ---- */
+const drawer=$("#drawer"), mask=$("#mask");
+function openD(v){ drawer.classList.toggle("on",v); mask.classList.toggle("on",v); if(v) SFX.open(); }
+$("#btnSet").onclick=()=>openD(true);
+$("#btnClose").onclick=()=>openD(false);
+mask.onclick=()=>openD(false);
+
+function bindRange(id, key, label){
+  const r=$("#r"+id), v=$("#v"+id);
+  r.oninput=()=>{ CFG[key]=+r.value; v.textContent=r.value; localStorage.setItem("lfc_cfg",JSON.stringify(CFG)); };
+}
+bindRange("Sweet","sweet"); bindRange("Free","free"); bindRange("Warm","warm"); bindRange("Long","long");
+function bindSw(id, cb){ const s=$("#sw"+id); s.onclick=()=>{ s.classList.toggle("on"); cb(s.classList.contains("on")); localStorage.setItem("lfc_cfg",JSON.stringify(CFG)); }; }
+bindSw("Act", v=>CFG.act=v);
+bindSw("Think", v=>CFG.think=v);
+
+$("#swLlm").onclick=function(){
+  this.classList.toggle("on");
+  LLM.on=this.classList.contains("on");
+  if(LLM.on && !LLM.key){
+    const k=prompt("粘贴你的 API Key（只存在本机浏览器）");
+    if(k) LLM.key=k.trim(); else { LLM.on=false; this.classList.remove("on"); }
+  }
+};
+["Base","Key","Model"].forEach(n=>{
+  const el=$("#inp"+n);
+  el.oninput=()=>{ LLM[n.toLowerCase()=="model"?"model":(n.toLowerCase()=="key"?"key":"base")] = el.value.trim(); };
+});
+
+$("#btnForget").onclick=()=>{ MEM.userName=null; MEM.emoCount={}; MEM.turns=0; MEM.streak={k:null,n:0};
+  MEM.insight=null; MEM.demanded=false; Object.keys(MEM.used).forEach(k=>MEM.used[k]=[]); saveMem(); renderMem(); };
+
+$("#btnClear").onclick=()=>{
+  if(!confirm("清空全部对话和记忆？此操作不可撤销。")) return;
+  localStorage.removeItem(S_KEY); location.reload();
+};
+
+/* ---- 声音开关 ---- */
+bindSw("Sound", v=>{ CFG.sound=v; SND.on=v; if(!v && "speechSynthesis" in window) speechSynthesis.cancel(); else ac(); });
+bindSw("Type",  v=>CFG.typeSnd=v);
+bindSw("Amb",   v=>{ CFG.amb=v; if(v){ ac(); ambient(true); } else { if("speechSynthesis" in window) speechSynthesis.cancel(); ambient(false); } });
+
+const rVol=$("#rVol");
+rVol.oninput=()=>{ const v=+rVol.value; SND.vol=v/100; $("#vVol").textContent=v;
+  localStorage.setItem("lfc_cfg",JSON.stringify(CFG)); };
+
+$("#btnVoice").onclick=()=>{
+  ac(); SFX.chip();
+  const vs = (window.speechSynthesis? speechSynthesis.getVoices():[]) || [];
+  const zh = vs.filter(v=>/zh|cmn/i.test(v.lang));
+  speak(zh.length
+    ? "我这一嗓子，是浏览器给我的。你听着还行吧？不喜欢就换个声音——右边的系统设置里能调。"
+    : "咦，我这嗓子怎么哑了？你这浏览器里好像没装中文语音包。Windows 上可以在 设置 → 时间和语言 → 语音 里加一个中文声音。");
+};
+
+/* ---- 首次交互解锁音频（浏览器自动播放策略） ---- */
+let unlocked=false;
+function unlock(){
+  if(unlocked) return; unlocked=true;
+  const c=ac();
+  if(c){ const b=c.createBuffer(1,1,22050); const s=c.createBufferSource(); s.buffer=b; s.connect(c.destination); s.start(0); }
+  if(CFG.amb) ambient(true);
+}
+document.addEventListener("click", unlock, {once:false});
+document.addEventListener("keydown", unlock, {once:false});
+
+$("#btnMusic").onclick=()=>{
+  const songs=[
+    {act:"（清了个嗓子，唱）", text:"山外青山楼外楼，西湖歌舞几时休。暖风熏得游人醉，直把杭州作汴州。——唱完自觉不错，抬眼看你。"},
+    {act:"（拿筷子敲碗沿，打了个拍子）", text:"三月三，蚂蚁开门；九月九，姑娘拍手。——我唱得一板一眼，你忍一忍。"},
+    {act:"（吹了一段口哨，调子不太成章）", text:"我师父说，这曲子叫《落花》。我没记住后半段。你要不要听我把后半段编出来？"},
+  ];
+  const s=songs[Math.floor(Math.random()*songs.length)];
+  addMsg("luo", s);
+  scroll();
+  SFX.chip();
+  // 唱：让语音慢一点、带点拖腔
+  setTimeout(()=>{
+    if(!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(s.text.replace(/[（(][^）)]*[）)]/g,""));
+    u.lang="zh-CN"; u.rate=0.82; u.pitch=1.12; u.volume=SND.vol;
+    const zh=speechSynthesis.getVoices().filter(v=>/zh|cmn/i.test(v.lang));
+    const f=zh.find(v=>/female|女|Xiaoxiao|Yaoyao|Huihui/i.test(v.name));
+    if(f) u.voice=f;
+    speechSynthesis.speak(u);
+  },350);
+};
+
+/* ---- 输入 ---- */
+$("#btnSend").onclick=send;
+ta.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing){ e.preventDefault(); send(); }});
+ta.addEventListener("input",()=>{
+  ta.style.height="44px"; ta.style.height=Math.min(ta.scrollHeight,110)+"px";
+  // 你一开口，她就停下来说话 —— 真人聊天就是这样
+  if("speechSynthesis" in window && speechSynthesis.speaking) speechSynthesis.cancel();
+});
+// 切到别的标签页就安静
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden && "speechSynthesis" in window) speechSynthesis.cancel();
+});
+
+/* ---- 开场 ---- */
+function boot(){
+  try{ const c=localStorage.getItem("lfc_cfg"); if(c){ Object.assign(CFG, JSON.parse(c));
+    $("#rSweet").value=CFG.sweet; $("#vSweet").textContent=CFG.sweet;
+    $("#rFree").value=CFG.free;  $("#vFree").textContent=CFG.free;
+    $("#rWarm").value=CFG.warm;  $("#vWarm").textContent=CFG.warm;
+    $("#rLong").value=CFG.long;  $("#vLong").textContent=CFG.long;
+    $("#rVol").value = Math.round(SND.vol*100); $("#vVol").textContent = Math.round(SND.vol*100);
+    if(!CFG.act)  $("#swAct").classList.remove("on");
+    if(!CFG.think)$("#swThink").classList.remove("on");
+    if(!CFG.sound) $("#swSound").classList.remove("on");
+    if(!CFG.typeSnd)$("#swType").classList.remove("on");
+    if(!CFG.amb)   $("#swAmb").classList.remove("on");
+    SND.on = CFG.sound;
+  }}catch(e){}
+  loadMem(); renderMem();
+
+  const sep=document.createElement("div");
+  sep.className="daysep"; sep.textContent=MEM.turns>0 ? "续 上 前 话" : "西 湖 · 三 月";
+  wrap.appendChild(sep);
+
+  if(MEM.turns>0){
+    addMsg("luo",{act:null,text: MEM.userName?`${MEM.userName}。上回说到一半，我记着呢。`:"你回来了。我这儿酒还温着。"});
+    setTimeout(()=>{ unlock(); if(CFG.sound) speak("你回来了。我这儿酒还温着。"); }, 400);
+  }else{
+    const hi = {act:"（正拿袖子擦剑，抬头）",
+      text:"来了。我在这湖边待了三天，正愁没人说话。你是来看水的，还是来看人的？——我看人。"};
+    addMsg("luo", hi);
+    setTimeout(()=>{ unlock(); if(CFG.sound) speak(hi.text); }, 500);
+    setTimeout(()=>addMsg("luo",{act:null,text:"别站着。坐下说。"}), 1600);
+  }
+  scroll();
+}
+boot();
+</script>
+</body>
+</html>
