@@ -1,1 +1,20 @@
-§'r¿§'(v÷§¿ûŞÿéÊ×¬µÆœ…ïç¡×¦¡Û¥zÏİŠËz{Ş÷§½ìZš™^¾Ç(uïâuæ¿$­¢·“†é›±Öå¢	n¡÷§Ènf–gp¢¹¹×r
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+
+# æœ¬åœ°ç§æœ‰æ–‡ä»¶ï¼Œä¸ä¸Šçº¿
+luofengchun.html
+æ´›é€¢æ˜¥å¯¹è¯å¹³å°-ä½¿ç”¨è¯´æ˜.md
+.workbuddy/
